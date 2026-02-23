@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduPro | All-in-One CRM</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+    <title>EduPro Mobile | CRM</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* CSS USLUBLAR */
         :root {
-            --bg-color: #f0f2f5;
+            --bg-color: #f8fafc;
             --sidebar-color: #1e293b;
             --primary: #4e73df;
             --white: #ffffff;
@@ -18,61 +18,98 @@
             --danger: #e74a3b;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: var(--bg-color); display: flex; color: var(--text-main); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; }
+        body { background: var(--bg-color); color: var(--text-main); overflow-x: hidden; }
 
-        /* Sidebar */
-        .sidebar { width: 260px; height: 100vh; background: var(--sidebar-color); color: white; position: fixed; transition: 0.3s; }
-        .logo { padding: 30px; font-size: 22px; font-weight: bold; border-bottom: 1px solid #334155; display: flex; gap: 10px; align-items: center; }
+        /* SIDEBAR (Desktopda ochiq, Mobilda yopiq) */
+        .sidebar { 
+            width: 260px; height: 100vh; background: var(--sidebar-color); 
+            color: white; position: fixed; left: 0; top: 0; z-index: 1000; 
+            transition: 0.3s; 
+        }
+
+        .logo { padding: 25px; font-size: 20px; font-weight: bold; border-bottom: 1px solid #334155; text-align: center; }
         .logo span { color: var(--primary); }
-        .side-nav { padding-top: 20px; }
-        .nav-link { display: block; padding: 15px 30px; color: #94a3b8; text-decoration: none; cursor: pointer; }
+
+        .side-nav { padding-top: 15px; }
+        .nav-link { 
+            display: flex; align-items: center; padding: 15px 25px; 
+            color: #94a3b8; text-decoration: none; cursor: pointer; transition: 0.2s;
+        }
         .nav-link:hover, .nav-link.active { background: #334155; color: white; border-left: 4px solid var(--primary); }
-        .nav-link i { margin-right: 10px; width: 20px; }
+        .nav-link i { margin-right: 15px; width: 20px; }
 
-        /* Main Content */
-        .main-content { margin-left: 260px; width: calc(100% - 260px); min-height: 100vh; padding-bottom: 50px; }
-        .navbar { height: 70px; background: var(--white); display: flex; align-items: center; justify-content: space-between; padding: 0 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .profile { display: flex; align-items: center; gap: 10px; font-weight: 600; }
-        .profile img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
+        /* MAIN CONTENT */
+        .main-content { margin-left: 260px; width: calc(100% - 260px); transition: 0.3s; }
 
-        /* Layout Elements */
-        .container { padding: 30px; }
-        .tab-content { display: none; animation: fadeIn 0.4s ease; }
-        .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .navbar { 
+            height: 70px; background: var(--white); display: flex; 
+            align-items: center; justify-content: space-between; 
+            padding: 0 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+        }
 
-        /* Cards & Stats */
-        .stats-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
-        .card { background: white; padding: 25px; border-radius: 12px; display: flex; align-items: center; gap: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-left: 5px solid var(--primary); }
-        .card i { font-size: 30px; opacity: 0.3; }
-        .card h3 { font-size: 24px; margin-bottom: 5px; }
+        .menu-toggle { display: none; font-size: 24px; cursor: pointer; }
 
-        /* Tables */
-        .table-wrapper { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); overflow-x: auto; }
-        .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 15px; border-bottom: 2px solid #f1f5f9; background: #fafbfc; }
-        td { padding: 15px; border-bottom: 1px solid #f1f5f9; }
+        /* STATS */
+        .container { padding: 20px; }
+        .stats-cards { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+            gap: 20px; margin-bottom: 25px; 
+        }
+        .card { 
+            background: white; padding: 20px; border-radius: 12px; 
+            display: flex; align-items: center; gap: 15px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 5px solid var(--primary); 
+        }
+        .card i { font-size: 28px; color: var(--primary); opacity: 0.5; }
 
-        /* Buttons & Forms */
-        .btn-add { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; }
-        .btn-atnd { background: var(--success); color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; }
-        .btn-del { background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; }
-        
+        /* TABLES */
+        .table-wrapper { 
+            background: white; padding: 15px; border-radius: 12px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow-x: auto; 
+        }
+        table { width: 100%; border-collapse: collapse; min-width: 500px; }
+        th { text-align: left; padding: 12px; border-bottom: 2px solid #f1f5f9; background: #fafbfc; font-size: 14px; }
+        td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 768px) {
+            .sidebar { left: -260px; } /* Mobilda sidebar yashiriladi */
+            .sidebar.active { left: 0; }
+            .main-content { margin-left: 0; width: 100%; }
+            .menu-toggle { display: block; }
+            .stats-cards { grid-template-columns: 1fr; }
+            .modal-content { width: 90%; }
+            .navbar { padding: 0 15px; }
+            .greet { display: none; } /* Mobilda salomlashuvni yashirish */
+        }
+
+        /* BUTTONS */
+        .btn-add { background: var(--primary); color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-size: 14px; }
+        .btn-atnd { background: var(--success); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+        .btn-del { background: var(--danger); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+
+        /* MODAL */
+        .modal { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 2000; 
+        }
+        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 400px; }
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; margin-bottom: 5px; font-weight: 600; }
-        .input-group input, .input-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
+        .input-group input, .input-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
 
-        /* Modal */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
-        .modal-content { background: white; padding: 30px; border-radius: 12px; width: 450px; }
+        /* TAB SHOW/HIDE */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
     </style>
 </head>
 <body>
 
-    <aside class="sidebar">
-        <div class="logo"><i class="fas fa-graduation-cap"></i> <span id="brand-name">EDU PRO</span></div>
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i> <span id="brand-name">EDU PRO</span>
+        </div>
         <nav class="side-nav">
             <div class="nav-link active" onclick="changeTab('dashboard', this)"><i class="fas fa-th-large"></i> Dashboard</div>
             <div class="nav-link" onclick="changeTab('students', this)"><i class="fas fa-users"></i> O'quvchilar</div>
@@ -84,76 +121,69 @@
 
     <main class="main-content">
         <header class="navbar">
-            <div class="greet">Xush kelibsiz, <strong id="admin-name-nav">Admin</strong>!</div>
+            <div class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+            <div class="greet">Salom, <strong id="admin-name-nav">Admin</strong>!</div>
             <div class="profile">
-                <img id="admin-img-nav" src="https://ui-avatars.com/api/?name=Admin&background=4e73df&color=fff" alt="Profile">
                 <span id="admin-display-name">Admin</span>
+                <img src="https://ui-avatars.com/api/?name=Admin&background=4e73df&color=fff" style="width:35px; border-radius:50%">
             </div>
         </header>
 
         <div class="container">
             <section id="dashboard" class="tab-content active">
-                <h2>Boshqaruv Paneli</h2>
                 <div class="stats-cards">
-                    <div class="card"><i class="fas fa-user-graduate"></i><div><h3 id="dash-std-count">0</h3><p>O'quvchilar</p></div></div>
-                    <div class="card"><i class="fas fa-wallet"></i><div><h3 id="dash-income">0</h3><p>Jami tushum (UZS)</p></div></div>
-                    <div class="card"><i class="fas fa-piggy-bank"></i><div><h3 id="dash-profit">0</h3><p>Sof foyda (Markaz)</p></div></div>
+                    <div class="card"><i class="fas fa-users"></i><div><h3 id="dash-std">0</h3><p>O'quvchilar</p></div></div>
+                    <div class="card"><i class="fas fa-cash-register"></i><div><h3 id="dash-inc">0</h3><p>Kassa (UZS)</p></div></div>
+                    <div class="card"><i class="fas fa-wallet"></i><div><h3 id="dash-prof">0</h3><p>Sof foyda</p></div></div>
                 </div>
                 <div class="table-wrapper">
-                    <h3>Oxirgi qo'shilganlar</h3>
-                    <table id="recentTable">
-                        <thead><tr><th>F.I.SH</th><th>Kurs Narxi</th><th>Sana</th></tr></thead>
+                    <h3>Oxirgi qo'shilganlar</h3><br>
+                    <table>
+                        <thead><tr><th>Ism</th><th>To'lov</th></tr></thead>
                         <tbody id="recentBody"></tbody>
                     </table>
                 </div>
             </section>
 
             <section id="students" class="tab-content">
-                <div class="table-header">
-                    <h2>O'quvchilar Bazasi</h2>
-                    <button class="btn-add" onclick="openModal()">+ Yangi O'quvchi</button>
+                <div style="display:flex; justify-content:space-between; margin-bottom:15px">
+                    <h2>O'quvchilar</h2>
+                    <button class="btn-add" onclick="openModal()">+ Qo'shish</button>
                 </div>
                 <div class="table-wrapper">
                     <table>
-                        <thead><tr><th>Ism Sharif</th><th>To'lov</th><th>O'qituvchi %</th><th>Amal</th></tr></thead>
+                        <thead><tr><th>Ism</th><th>To'lov</th><th>Amal</th></tr></thead>
                         <tbody id="studentBody"></tbody>
                     </table>
                 </div>
             </section>
 
             <section id="attendance" class="tab-content">
-                <h2>Kunlik Davomat</h2>
-                <p>Sana: <span id="currentDate"></span></p><br>
+                <h2>Kunlik Davomat</h2><br>
                 <div class="table-wrapper">
                     <table>
-                        <thead><tr><th>O'quvchi</th><th>Davomat</th><th>Jami darslar</th></tr></thead>
+                        <thead><tr><th>Ism</th><th>Harakat</th><th>Darslar</th></tr></thead>
                         <tbody id="attendanceBody"></tbody>
                     </table>
                 </div>
             </section>
 
             <section id="finance" class="tab-content">
-                <h2>Moliya & Oyliklar</h2>
+                <h2>Moliya Hisoboti</h2><br>
                 <div class="table-wrapper">
                     <table>
-                        <thead><tr><th>Kurs/O'quvchi</th><th>Jami tushum</th><th>O'qituvchi (ulush)</th></tr></thead>
+                        <thead><tr><th>O'quvchi</th><th>To'lov</th><th>O'qituvchi ulushi</th></tr></thead>
                         <tbody id="financeBody"></tbody>
                     </table>
                 </div>
             </section>
 
             <section id="settings" class="tab-content">
-                <h2>Tizim Sozlamalari</h2>
-                <div class="table-wrapper" style="max-width: 500px;">
-                    <div class="input-group">
-                        <label>Markaz nomi:</label>
-                        <input type="text" id="set-brand" placeholder="Edu Pro">
-                    </div>
-                    <div class="input-group">
-                        <label>Admin ismi:</label>
-                        <input type="text" id="set-admin" placeholder="Admin">
-                    </div>
-                    <button class="btn-add" onclick="saveSettings()">Saqlash</button>
+                <h2>Sozlamalar</h2><br>
+                <div class="table-wrapper" style="max-width:400px">
+                    <div class="input-group"><label>Markaz nomi:</label><input type="text" id="set-brand"></div>
+                    <div class="input-group"><label>Admin ismi:</label><input type="text" id="set-admin"></div>
+                    <button class="btn-add" style="width:100%" onclick="saveSettings()">Saqlash</button>
                 </div>
             </section>
         </div>
@@ -161,45 +191,32 @@
 
     <div id="modal" class="modal">
         <div class="modal-content">
-            <h3>Yangi o'quvchi qo'shish</h3><br>
+            <h3>Yangi O'quvchi</h3><br>
+            <div class="input-group"><label>Ism Sharif:</label><input type="text" id="inName"></div>
+            <div class="input-group"><label>Kurs narxi:</label><input type="number" id="inFee"></div>
             <div class="input-group">
-                <label>F.I.SH:</label>
-                <input type="text" id="inName">
+                <label>O'qituvchi ulushi:</label>
+                <select id="inPercent"><option value="40">40%</option><option value="50" selected>50%</option></select>
             </div>
-            <div class="input-group">
-                <label>To'lov summasi:</label>
-                <input type="number" id="inFee">
-            </div>
-            <div class="input-group">
-                <label>O'qituvchi ulushi (%):</label>
-                <select id="inPercent">
-                    <option value="40">40%</option>
-                    <option value="50" selected>50%</option>
-                </select>
-            </div>
-            <div style="display:flex; gap:10px; justify-content: flex-end;">
-                <button class="btn-del" onclick="closeModal()">Bekor qilish</button>
-                <button class="btn-add" onclick="addStudent()">Qo'shish</button>
+            <div style="display:flex; gap:10px">
+                <button class="btn-add" style="flex:1" onclick="addStudent()">Saqlash</button>
+                <button class="btn-del" style="flex:1" onclick="closeModal()">Yopish</button>
             </div>
         </div>
     </div>
 
     <script>
-        /* JAVASCRIPT LOGIKA */
         let students = JSON.parse(localStorage.getItem('edu_db')) || [];
-        let settings = JSON.parse(localStorage.getItem('edu_settings')) || { brand: "EDU PRO", admin: "Admin" };
+        let settings = JSON.parse(localStorage.getItem('edu_set')) || {brand:"EDU PRO", admin:"Admin"};
 
-        window.onload = () => {
-            loadSettings();
-            updateUI();
-            document.getElementById('currentDate').innerText = new Date().toLocaleDateString();
-        };
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
 
         function changeTab(tabId, el) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             el.classList.add('active');
+            if(window.innerWidth <= 768) toggleSidebar(); // Mobilda menyu tanlangach sidebar yopilsa qulay
             updateUI();
         }
 
@@ -209,77 +226,57 @@
         function addStudent() {
             const name = document.getElementById('inName').value;
             const fee = document.getElementById('inFee').value;
-            const percent = document.getElementById('inPercent').value;
-
             if(name && fee) {
-                students.push({
-                    id: Date.now(),
-                    name: name,
-                    fee: parseFloat(fee),
-                    percent: parseInt(percent),
-                    attendance: 0,
-                    date: new Date().toLocaleDateString()
-                });
-                saveData();
-                closeModal();
-                updateUI();
+                students.push({ id:Date.now(), name, fee:Number(fee), percent:Number(document.getElementById('inPercent').value), attendance:0 });
+                localStorage.setItem('edu_db', JSON.stringify(students));
+                updateUI(); closeModal();
             }
         }
 
         function deleteStudent(id) {
-            if(confirm("Ushbu o'quvchini o'chirmoqchimisiz?")) {
+            if(confirm("O'chirilsinmi?")) {
                 students = students.filter(s => s.id !== id);
-                saveData();
+                localStorage.setItem('edu_db', JSON.stringify(students));
                 updateUI();
             }
         }
 
-        function markAttendance(id) {
-            const s = students.find(x => x.id === id);
-            s.attendance++;
-            saveData();
+        function markAtnd(id) {
+            students.find(s => s.id === id).attendance++;
+            localStorage.setItem('edu_db', JSON.stringify(students));
             updateUI();
         }
 
-        function saveData() { localStorage.setItem('edu_db', JSON.stringify(students)); }
-
         function saveSettings() {
-            settings.brand = document.getElementById('set-brand').value || "EDU PRO";
-            settings.admin = document.getElementById('set-admin').value || "Admin";
-            localStorage.setItem('edu_settings', JSON.stringify(settings));
-            loadSettings();
-            alert("Saqlandi!");
+            settings = { brand: document.getElementById('set-brand').value, admin: document.getElementById('set-admin').value };
+            localStorage.setItem('edu_set', JSON.stringify(settings));
+            applySettings(); alert("Saqlandi!");
         }
 
-        function loadSettings() {
+        function applySettings() {
             document.getElementById('brand-name').innerText = settings.brand;
-            document.getElementById('admin-name-nav').innerText = settings.admin;
             document.getElementById('admin-display-name').innerText = settings.admin;
+            document.getElementById('admin-name-nav').innerText = settings.admin;
             document.getElementById('set-brand').value = settings.brand;
             document.getElementById('set-admin').value = settings.admin;
         }
 
         function updateUI() {
-            // Dashboard stats
-            let totalIncome = students.reduce((a, b) => a + b.fee, 0);
-            let teacherPay = students.reduce((a, b) => a + (b.fee * b.percent / 100), 0);
-            document.getElementById('dash-std-count').innerText = students.length;
-            document.getElementById('dash-income').innerText = totalIncome.toLocaleString();
-            document.getElementById('dash-profit').innerText = (totalIncome - teacherPay).toLocaleString();
+            let inc = students.reduce((a,b) => a + b.fee, 0);
+            let pay = students.reduce((a,b) => a + (b.fee * b.percent / 100), 0);
+            document.getElementById('dash-std').innerText = students.length;
+            document.getElementById('dash-inc').innerText = inc.toLocaleString();
+            document.getElementById('dash-prof').innerText = (inc - pay).toLocaleString();
 
-            // Tables
-            renderTable('studentBody', s => `<tr><td>${s.name}</td><td>${s.fee.toLocaleString()}</td><td>${s.percent}%</td><td><button class="btn-del" onclick="deleteStudent(${s.id})">O'chirish</button></td></tr>`);
-            renderTable('attendanceBody', s => `<tr><td>${s.name}</td><td><button class="btn-atnd" onclick="markAttendance(${s.id})">Keldi</button></td><td>${s.attendance} ta dars</td></tr>`);
-            renderTable('financeBody', s => `<tr><td>${s.name}</td><td>${s.fee.toLocaleString()}</td><td>${(s.fee * s.percent / 100).toLocaleString()} UZS</td></tr>`);
-            renderTable('recentBody', s => `<tr><td>${s.name}</td><td>${s.fee.toLocaleString()}</td><td>${s.date}</td></tr>`, true);
+            const render = (id, html) => document.getElementById(id).innerHTML = html;
+            
+            render('studentBody', students.map(s => `<tr><td>${s.name}</td><td>${s.fee.toLocaleString()}</td><td><button class="btn-del" onclick="deleteStudent(${s.id})">X</button></td></tr>`).join(''));
+            render('attendanceBody', students.map(s => `<tr><td>${s.name}</td><td><button class="btn-atnd" onclick="markAtnd(${s.id})">K</button></td><td>${s.attendance}</td></tr>`).join(''));
+            render('financeBody', students.map(s => `<tr><td>${s.name}</td><td>${s.fee.toLocaleString()}</td><td>${(s.fee*s.percent/100).toLocaleString()}</td></tr>`).join(''));
+            render('recentBody', students.slice(-3).map(s => `<tr><td>${s.name}</td><td>${s.fee.toLocaleString()}</td></tr>`).join(''));
         }
 
-        function renderTable(targetId, templateFn, limit = false) {
-            const target = document.getElementById(targetId);
-            target.innerHTML = '';
-            let data = limit ? students.slice(-5).reverse() : students;
-            data.forEach(s => target.innerHTML += templateFn(s));
-        }
+        window.onload = () => { applySettings(); updateUI(); };
     </script>
 </body>
 </html>
